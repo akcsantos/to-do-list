@@ -1,0 +1,10 @@
+.maincontainer {
+  height: 700px;
+  width: 1200px;
+  border-radius: 1.5em;
+  background-color: #fbfafb;
+  box-shadow: 0 0 4px 2px #b4bab1;
+  display: grid;
+  grid-template-columns: 1fr 3.5fr;
+  padding: 0px;
+}
