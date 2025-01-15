@@ -10,35 +10,35 @@ export default function LeftWrapper({ handleClick }) {
           <button
             className={styles.leftButton}
             onClick={handleClick}
-            value="ALL TASKS"
+            value="all"
           >
             🗒️ ALL TASKS
           </button>
           <button
             className={styles.leftButton}
             onClick={handleClick}
-            value="TODAY"
+            value="today"
           >
             ❕ TODAY
           </button>
           <button
             className={styles.leftButton}
             onClick={handleClick}
-            value="WEEK"
+            value="weekly"
           >
             🔜 WEEK
           </button>
           <button
             className={styles.leftButton}
             onClick={handleClick}
-            value="MONTH"
+            value="monthly"
           >
             📆 MONTH
           </button>
           <button
             className={styles.leftButton}
             onClick={handleClick}
-            value="COMPLETED"
+            value="completed"
           >
             ✔️ COMPLETED
           </button>
