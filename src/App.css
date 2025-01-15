@@ -1,10 +1,11 @@
 body {
-  background-color: #becbba;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
   width: 100%;
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to bottom left, #dbe6f6, #c5796d);
+  font-family: cursive;
 }

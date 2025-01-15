@@ -1,11 +1,11 @@
 import { useState } from "react";
 import "./App.css";
-import MainContainer from "./components/MainContainer";
+import MainWrapper from "./components/MainWrapper";
 
 function App() {
   return (
     <div>
-      <MainContainer />
+      <MainWrapper />
     </div>
   );
 }
