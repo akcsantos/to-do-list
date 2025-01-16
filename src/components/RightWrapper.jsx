@@ -1,17 +1,17 @@
 import { useState } from "react";
 import styles from "./rightWrapper.module.css";
-// import Card from "./Card";
 import Form from "./Form";
 
 export default function RightWrapper({ title, filter }) {
   const [formState, setFormState] = useState(false);
+  const [headerStyle, setHeaderStyle] = useState(styles.headerSticky);
   const [date, setDate] = useState("");
   const [input, setInput] = useState("");
   const [tasks, setTasks] = useState({
     all: [],
     today: [],
-    weekly: [],
-    monthly: [],
+    week: [],
+    upcoming: [],
     completed: [],
   });
 
@@ -21,23 +21,25 @@ export default function RightWrapper({ title, filter }) {
     const diffTime = taskDate - today;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays <= 1) {
+    if (diffDays <= 0) {
       return "today";
     } else if (diffDays <= 7) {
-      return "weekly";
+      return "week";
     } else {
-      return "monthly";
+      return "upcoming";
     }
   }
 
   function addTaskButton() {
     setFormState(true);
+    setHeaderStyle(styles.headerModalOn);
   }
 
   function formOnClose() {
     setFormState(false);
     setDate("");
     setInput("");
+    setHeaderStyle(styles.headerSticky);
   }
 
   function handleSubmit(e) {
@@ -52,15 +54,44 @@ export default function RightWrapper({ title, filter }) {
         [category]: [...tasks[category], task],
       });
     }
-    console.log(tasks);
   }
 
-  const removeTask = (section, index) => {
+  function getTasks() {
+    const dateSort = (a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      if (dateA > dateB) return 1;
+      if (dateA < dateB) return -1;
+      return 0;
+    };
+
+    const sortedDates = tasks[filter].sort(dateSort);
+
+    if (filter === "all") {
+      const allTask = [
+        ...tasks["today"],
+        ...tasks["week"],
+        ...tasks["upcoming"],
+      ];
+
+      return allTask
+        .sort(dateSort)
+        .map((task) => ({ ...task, category: filter }));
+    }
+    // else if (filter === 'completed') {
+    //   return Object.entries(tasks).flatMap(([category, taskList]) =>
+    //     taskList.filter((task) => task.completed).map((task) => ({ ...task, category }))
+    //   );
+    // }
+    return sortedDates.map((task) => ({ ...task, category: filter }));
+  }
+
+  function removeTask(section, index) {
     setTasks({
       ...tasks,
       [section]: tasks[section].filter((_, i) => i !== index),
     });
-  };
+  }
 
   return (
     <>
@@ -75,7 +106,7 @@ export default function RightWrapper({ title, filter }) {
         />
       )}
       <div className={styles.wrapper}>
-        <div className={styles.header}>
+        <div className={headerStyle}>
           <h2 className={styles.title}>{title}</h2>
           <div className={styles.btnHolder}>
             <button className={styles.addButton} onClick={addTaskButton}>
@@ -84,15 +115,19 @@ export default function RightWrapper({ title, filter }) {
           </div>
         </div>
         <div className={styles.cardHolder}>
-          {/* list section */}
-          {/* <h2>{filter.charAt(0).toUpperCase() + filter.slice(1)} Tasks</h2> */}
-
-          {tasks[filter].map((task, index) => (
+          {getTasks().map((task, index) => (
             <li key={index} className={styles.card}>
               <span>
-                {task.text} - <strong>Due: {task.date || "No date set"}</strong>
+                {task.text.charAt(0).toUpperCase() +
+                  task.text.slice(1).toLowerCase()}
+                - <strong>Due: {task.date || "No date set"}</strong>
               </span>
-              <button onClick={() => removeTask(filter, index)}>Remove</button>
+              <button
+                onClick={() => removeTask(filter, index)}
+                className={styles.removeBtn}
+              >
+                Remove
+              </button>
             </li>
           ))}
 

@@ -24,16 +24,16 @@ export default function LeftWrapper({ handleClick }) {
           <button
             className={styles.leftButton}
             onClick={handleClick}
-            value="weekly"
+            value="week"
           >
-            🔜 WEEK
+            🔜 NEXT 7 DAYS
           </button>
           <button
             className={styles.leftButton}
             onClick={handleClick}
-            value="monthly"
+            value="upcoming"
           >
-            📆 MONTH
+            📆 UPCOMING
           </button>
           <button
             className={styles.leftButton}
@@ -44,9 +44,9 @@ export default function LeftWrapper({ handleClick }) {
           </button>
         </div>
       </div>
-      <div className={styles.bottomContainer}>
+      {/* <div className={styles.bottomContainer}>
         <h2>Projects</h2>
-      </div>
+      </div> */}
     </div>
   );
 }

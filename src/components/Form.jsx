@@ -31,6 +31,7 @@ export default function Form({
             className={styles.inputTask}
             type="text"
             placeholder="Wash the dishes"
+            required
           />
         </label>
         <label className={styles.taskLabel}>
@@ -40,6 +41,7 @@ export default function Form({
             value={date}
             onChange={(e) => setDate(e.target.value)}
             min={today}
+            required
           />
         </label>
         <input type="submit" value="Submit" />

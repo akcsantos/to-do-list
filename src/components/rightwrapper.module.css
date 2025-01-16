@@ -5,10 +5,22 @@
   overflow-y: auto;
 }
 
-.header {
+.headerSticky {
   display: grid;
   grid-template-columns: 5fr 1fr;
   padding: 10px 5px 0 20px;
+  top: 0;
+  background-color: white;
+  position: sticky;
+}
+
+.headerModalOn {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  padding: 10px 5px 0 20px;
+  top: 0;
+  background-color: white;
+  /* position: sticky; */
 }
 
 .title {
@@ -28,16 +40,18 @@
   margin-top: 10px;
 }
 
-.addButton:hover {
+.addButton:hover,
+.removeBtn:hover {
   background-color: #36454f;
   cursor: pointer;
   border-radius: 20px;
   color: #ffdb58;
 }
 
-.addButton:active {
+.addButton:active,
+.removeBtn:active {
   transform: translateY(-0.25em);
-  background-color: antiquewhite;
+  background-color: rgb(197, 20, 153);
   color: black;
   -webkit-transition: background-color 0.1s linear;
 }
@@ -50,18 +64,28 @@
 }
 
 .card {
-  display: flex;
-
-  grid-template-columns: 0.5fr 9fr 1fr;
+  display: grid;
+  grid-template-columns: 5fr 2fr;
   align-items: center;
+  justify-content: center;
   background-color: rgba(207, 195, 205, 0.808);
   min-height: 3em;
   width: 80%;
-  padding-left: 20px;
+  padding: 0 0 0 20px;
   border-radius: 15px;
   border: 1px solid black;
-  margin-bottom: 10px;
   list-style-type: none;
+  margin-bottom: 5px;
+}
+
+.removeBtn {
+  height: 55%;
+  width: 70%;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.75em;
+  font-weight: bolder;
+  background-color: rgba(216, 148, 205, 0.808);
 }
 
 p {

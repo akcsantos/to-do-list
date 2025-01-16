@@ -5,13 +5,27 @@ import styles from "./mainWrapper.module.css";
 
 export default function MainWrapper() {
   const [title, setTitle] = useState("All Tasks");
-  const [filter, setFilter] = useState("today");
+  const [filter, setFilter] = useState("all");
 
   function handleClick(e) {
     const targetValue = e.target.value;
-    setTitle(
-      targetValue.charAt(0).toUpperCase() + targetValue.slice(1) + "'s Tasks"
-    );
+    switch (targetValue) {
+      case "all":
+        setTitle("ALL TASKS");
+        break;
+      case "today":
+        setTitle("TODAY");
+        break;
+      case "week":
+        setTitle("NEXT 7 DAYS");
+        break;
+      case "upcoming":
+        setTitle("UPCOMING");
+        break;
+      case "completed":
+        setTitle("COMPLETED");
+        break;
+    }
     setFilter(targetValue);
   }
 
