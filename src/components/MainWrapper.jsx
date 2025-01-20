@@ -4,7 +4,7 @@ import RightWrapper from "./RightWrapper";
 import styles from "./mainWrapper.module.css";
 
 export default function MainWrapper() {
-  const [title, setTitle] = useState("All Tasks");
+  const [title, setTitle] = useState("ALL TASKS");
   const [filter, setFilter] = useState("all");
 
   function handleClick(e) {
@@ -32,7 +32,7 @@ export default function MainWrapper() {
   return (
     <div className={styles.mainWrapper}>
       <LeftWrapper handleClick={handleClick} />
-      <RightWrapper title={title} filter={filter} setFilter={setFilter} />
+      <RightWrapper title={title} filter={filter} />
     </div>
   );
 }

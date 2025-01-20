@@ -7,12 +7,11 @@ export default function RightWrapper({ title, filter }) {
   const [headerStyle, setHeaderStyle] = useState(styles.headerSticky);
   const [date, setDate] = useState("");
   const [input, setInput] = useState("");
+  const [checked, setChecked] = useState(false);
   const [tasks, setTasks] = useState({
-    all: [],
     today: [],
     week: [],
     upcoming: [],
-    completed: [],
   });
 
   function categorizeTask() {
@@ -65,25 +64,14 @@ export default function RightWrapper({ title, filter }) {
       return 0;
     };
 
-    const sortedDates = tasks[filter].sort(dateSort);
-
     if (filter === "all") {
-      const allTask = [
-        ...tasks["today"],
-        ...tasks["week"],
-        ...tasks["upcoming"],
-      ];
-
-      return allTask
-        .sort(dateSort)
-        .map((task) => ({ ...task, category: filter }));
+      return Object.entries(tasks).flatMap(([category, taskList]) =>
+        taskList.sort(dateSort).map((task) => ({ ...task, category }))
+      );
     }
-    // else if (filter === 'completed') {
-    //   return Object.entries(tasks).flatMap(([category, taskList]) =>
-    //     taskList.filter((task) => task.completed).map((task) => ({ ...task, category }))
-    //   );
-    // }
-    return sortedDates.map((task) => ({ ...task, category: filter }));
+    return tasks[filter]
+      .sort(dateSort)
+      .map((task) => ({ ...task, category: filter }));
   }
 
   function removeTask(section, index) {
@@ -91,6 +79,10 @@ export default function RightWrapper({ title, filter }) {
       ...tasks,
       [section]: tasks[section].filter((_, i) => i !== index),
     });
+  }
+
+  function toggleCheck() {
+    setChecked(!checked);
   }
 
   return (
@@ -118,12 +110,18 @@ export default function RightWrapper({ title, filter }) {
           {getTasks().map((task, index) => (
             <li key={index} className={styles.card}>
               <span>
+                <input
+                  type="checkbox"
+                  className={styles.checkBox}
+                  onChange={toggleCheck}
+                  value={checked}
+                />
                 {task.text.charAt(0).toUpperCase() +
                   task.text.slice(1).toLowerCase()}
                 - <strong>Due: {task.date || "No date set"}</strong>
               </span>
               <button
-                onClick={() => removeTask(filter, index)}
+                onClick={() => removeTask(task.category, index)}
                 className={styles.removeBtn}
               >
                 Remove
