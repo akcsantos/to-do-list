@@ -41,5 +41,5 @@
 .leftButton:active {
   transform: translateY(-0.25em);
   background-color: antiquewhite;
-  -webkit-transition: background-color 0.1s linear;
+  transition: background-color 100ms linear;
 }
