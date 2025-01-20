@@ -23,9 +23,6 @@
   /* position: sticky; */
 }
 
-.title {
-}
-
 .addButton {
   display: flex;
   justify-content: center;
@@ -76,6 +73,14 @@
   border: 1px solid black;
   list-style-type: none;
   margin-bottom: 5px;
+}
+
+.cardIncomplete {
+  text-decoration: none;
+}
+
+.cardComplete {
+  text-decoration: line-through;
 }
 
 .removeBtn {

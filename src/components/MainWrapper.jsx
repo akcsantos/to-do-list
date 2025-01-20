@@ -22,9 +22,6 @@ export default function MainWrapper() {
       case "upcoming":
         setTitle("UPCOMING");
         break;
-      case "completed":
-        setTitle("COMPLETED");
-        break;
     }
     setFilter(targetValue);
   }

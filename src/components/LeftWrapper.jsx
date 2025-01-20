@@ -35,13 +35,6 @@ export default function LeftWrapper({ handleClick }) {
           >
             📆 UPCOMING
           </button>
-          <button
-            className={styles.leftButton}
-            onClick={handleClick}
-            value="completed"
-          >
-            ✔️ COMPLETED
-          </button>
         </div>
       </div>
       {/* <div className={styles.bottomContainer}>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./rightWrapper.module.css";
 import Form from "./Form";
 
@@ -8,6 +8,8 @@ export default function RightWrapper({ title, filter }) {
   const [date, setDate] = useState("");
   const [input, setInput] = useState("");
   const [checked, setChecked] = useState(false);
+  const [cardStyle, setCardStyle] = useState(styles.card);
+  const [box, setBox] = useState(false);
   const [tasks, setTasks] = useState({
     today: [],
     week: [],
@@ -47,7 +49,7 @@ export default function RightWrapper({ title, filter }) {
 
     if (input.trim() && date) {
       const category = categorizeTask(date);
-      const task = { text: input.trim(), date };
+      const task = { text: input.trim(), date, completed: false };
       setTasks({
         ...tasks,
         [category]: [...tasks[category], task],
@@ -64,14 +66,25 @@ export default function RightWrapper({ title, filter }) {
       return 0;
     };
 
+    // const allTasks = [
+    //   ...tasks["today"],
+    //   ...tasks["week"],
+    //   ...tasks["upcoming"],
+    // ];
+
+    const allTasks = Object.entries(tasks).flatMap(([category, taskList]) =>
+      taskList
+        .sort(dateSort)
+        .map((task, i) => ({ ...task, category, index: i }))
+    );
     if (filter === "all") {
-      return Object.entries(tasks).flatMap(([category, taskList]) =>
-        taskList.sort(dateSort).map((task) => ({ ...task, category }))
-      );
+      return allTasks.sort((a, b) => a.completed - b.completed);
     }
+
     return tasks[filter]
       .sort(dateSort)
-      .map((task) => ({ ...task, category: filter }));
+      .map((task, i) => ({ ...task, category: filter, index: i }))
+      .sort((a, b) => a.completed - b.completed);
   }
 
   function removeTask(section, index) {
@@ -81,9 +94,27 @@ export default function RightWrapper({ title, filter }) {
     });
   }
 
-  function toggleCheck() {
-    setChecked(!checked);
+  function toggleCheck(section, index) {
+    setTasks({
+      ...tasks,
+      [section]: tasks[section].map((task, i) =>
+        i === index ? { ...task, completed: !task.completed } : task
+      ),
+    });
+    setBox(!box);
   }
+
+  function cardEffect() {
+    if (box === true) {
+      setCardStyle(styles.cardComplete);
+    } else {
+      setCardStyle(styles.cardIncomplete);
+    }
+  }
+
+  useEffect(() => {
+    cardEffect(), box;
+  });
 
   return (
     <>
@@ -108,12 +139,13 @@ export default function RightWrapper({ title, filter }) {
         </div>
         <div className={styles.cardHolder}>
           {getTasks().map((task, index) => (
-            <li key={index} className={styles.card}>
-              <span>
+            <li key={`${task.category}-${task.index}`} className={styles.card}>
+              <span className={cardStyle}>
                 <input
                   type="checkbox"
+                  checked={task.completed}
                   className={styles.checkBox}
-                  onChange={toggleCheck}
+                  onChange={() => toggleCheck(task.category, task.index)}
                   value={checked}
                 />
                 {task.text.charAt(0).toUpperCase() +
@@ -128,8 +160,6 @@ export default function RightWrapper({ title, filter }) {
               </button>
             </li>
           ))}
-
-          {/* end of */}
         </div>
       </div>
     </>
