@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./rightWrapper.module.css";
 import Form from "./Form";
+import Card from "./Card";
 
 export default function RightWrapper({ title, filter }) {
   const [formState, setFormState] = useState(false);
@@ -8,7 +9,7 @@ export default function RightWrapper({ title, filter }) {
   const [date, setDate] = useState("");
   const [input, setInput] = useState("");
   const [checked, setChecked] = useState(false);
-  const [cardStyle, setCardStyle] = useState(styles.card);
+
   const [box, setBox] = useState(false);
   const [tasks, setTasks] = useState({
     today: [],
@@ -104,18 +105,6 @@ export default function RightWrapper({ title, filter }) {
     setBox(!box);
   }
 
-  function cardEffect() {
-    if (box === true) {
-      setCardStyle(styles.cardComplete);
-    } else {
-      setCardStyle(styles.cardIncomplete);
-    }
-  }
-
-  useEffect(() => {
-    cardEffect(), box;
-  });
-
   return (
     <>
       {formState && (
@@ -139,26 +128,15 @@ export default function RightWrapper({ title, filter }) {
         </div>
         <div className={styles.cardHolder}>
           {getTasks().map((task, index) => (
-            <li key={`${task.category}-${task.index}`} className={styles.card}>
-              <span className={cardStyle}>
-                <input
-                  type="checkbox"
-                  checked={task.completed}
-                  className={styles.checkBox}
-                  onChange={() => toggleCheck(task.category, task.index)}
-                  value={checked}
-                />
-                {task.text.charAt(0).toUpperCase() +
-                  task.text.slice(1).toLowerCase()}
-                - <strong>Due: {task.date || "No date set"}</strong>
-              </span>
-              <button
-                onClick={() => removeTask(task.category, index)}
-                className={styles.removeBtn}
-              >
-                Remove
-              </button>
-            </li>
+            <Card
+              key={`${task.category}-${task.index}`}
+              task={task}
+              index={index}
+              checked={checked}
+              toggleCheck={toggleCheck}
+              box={box}
+              removeTask={removeTask}
+            />
           ))}
         </div>
       </div>
