@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "./rightWrapper.module.css";
 import Form from "./Form";
 import Card from "./Card";
@@ -9,7 +9,6 @@ export default function RightWrapper({ title, filter }) {
   const [date, setDate] = useState("");
   const [input, setInput] = useState("");
   const [checked, setChecked] = useState(false);
-
   const [box, setBox] = useState(false);
   const [tasks, setTasks] = useState({
     today: [],
@@ -17,6 +16,7 @@ export default function RightWrapper({ title, filter }) {
     upcoming: [],
   });
 
+  //Categorizes task either for today, for the next 7 days or for the upcoming days
   function categorizeTask() {
     const today = new Date();
     const taskDate = new Date(date);
@@ -44,6 +44,7 @@ export default function RightWrapper({ title, filter }) {
     setHeaderStyle(styles.headerSticky);
   }
 
+  //Adds the task to the list upon submission of the form
   function handleSubmit(e) {
     e.preventDefault();
     formOnClose();
@@ -58,6 +59,7 @@ export default function RightWrapper({ title, filter }) {
     }
   }
 
+  //Displays or filters the tasks according to the selected tab of the user
   function getTasks() {
     const dateSort = (a, b) => {
       const dateA = new Date(a.date);
@@ -66,12 +68,6 @@ export default function RightWrapper({ title, filter }) {
       if (dateA < dateB) return -1;
       return 0;
     };
-
-    // const allTasks = [
-    //   ...tasks["today"],
-    //   ...tasks["week"],
-    //   ...tasks["upcoming"],
-    // ];
 
     const allTasks = Object.entries(tasks).flatMap(([category, taskList]) =>
       taskList
@@ -95,6 +91,7 @@ export default function RightWrapper({ title, filter }) {
     });
   }
 
+  //Arranges the tasks upon checking(completion) of the task
   function toggleCheck(section, index) {
     setTasks({
       ...tasks,
